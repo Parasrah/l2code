@@ -6,6 +6,14 @@
 4) work through topics in `main.rs`
 5) implement functions in `lib.rs` so that tests pass
 
-# Github
+# Navigating to issues
 
+![goto issues](/images/issues.png)
 
+# Why did a PR fail?
+
+![goto pr](/images/pr.png)
+
+![goto failures](/images/in_pr.png)
+
+![failures](/images/failures.png)
