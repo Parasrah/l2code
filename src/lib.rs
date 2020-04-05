@@ -1,13 +1,18 @@
+extern crate chrono;
+
+mod entity;
+mod extensions;
+
 fn add_one (input: isize) -> isize {
-    unimplemented!()
+    input + 1
 }
 
 fn not (input: bool) -> bool {
-    unimplemented!()
+    !input
 }
 
 fn list_add_one (input: &Vec<isize>) -> Vec<isize> {
-    unimplemented!()
+    input.iter().map(|x| x + 1).collect()
 }
 
 #[cfg(test)]
