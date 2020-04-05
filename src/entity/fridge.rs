@@ -1,13 +1,13 @@
+use std::rc::Rc;
 use std::collections::HashMap;
-use crate::extensions::iter::IteratorExtensions;
 use super::item::Item;
 use super::measurement;
 use super::measurement::Measurement;
 use super::shopping_list::ShoppingList;
 
-type DesiredContents = HashMap<String, (Box<dyn Item>, Measurement)>;
+type DesiredContents = HashMap<String, (Rc<dyn Item>, Measurement)>;
 
-type Contents = Vec<(Box<dyn Item>, Measurement)>;
+type Contents = Vec<(Rc<dyn Item>, Measurement)>;
 
 pub struct Fridge {
     desired_contents: DesiredContents,
@@ -24,20 +24,34 @@ impl Fridge {
 
     /// Get a shopping list of items to purchase in order
     /// to meet the desired contents of the fridge
-    pub fn get_shopping_list (self) -> ShoppingList {
-        let items = self.contents.into_iter()
-            .merge_by(
-                |(item, _)| String::from(item.get_barcode()),
-                // right now this would panic (which is not good), but
-                // I'm short of time to get this ready for you guys
-                // do as I say not as I do
-                |(item, a), (_, b)| (item, a.add(&b).unwrap()),
-            );
+    pub fn get_shopping_list (self) -> Result<ShoppingList, measurement::Error> {
+        let mut owned_items: HashMap<String, Measurement> = HashMap::new();
+        for (item, amount) in self.contents.iter() {
+            let key = String::from(item.get_barcode());
+            if let Some(old) = owned_items.remove(&key) {
+                owned_items.insert(key, old.add(&amount).unwrap());
+            } else {
+                owned_items.insert(key, amount.clone());
+            }
+        }
 
-        return ShoppingList::new(items);
+        let mut required_contents: Vec<(Rc<dyn Item>, Measurement)> = Vec::new();
+
+        for (key, (item, desired_amount)) in self.desired_contents.iter() {
+            if let Some(owned_amount) = owned_items.get(key) {
+                if owned_amount.gte(&desired_amount)? {
+                    required_contents.push((Rc::clone(item), desired_amount.subtract(&owned_amount)?))
+                }
+            } else {
+                let clone = Rc::clone(&item);
+                required_contents.push((clone, desired_amount.clone()));
+            }
+        }
+
+        return Ok(ShoppingList::new(required_contents));
     }
 
-    pub fn add (&mut self, item: Box<dyn Item>) {
+    pub fn add (&mut self, item: Rc<dyn Item>) {
 
     }
 

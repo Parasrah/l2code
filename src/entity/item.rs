@@ -1,5 +1,6 @@
-use super::cost::Cost;
+use std::fmt;
 use chrono::{NaiveDate,DateTime, Utc};
+use super::cost::Cost;
 
 /// An item is something that could be stored in the fridge
 /// Items are identified by their barcode
@@ -13,6 +14,12 @@ pub trait Item {
     /// a barcode uniquely identifies this item
     fn get_barcode (&self) -> &str;
     fn get_cost (&self) -> &Cost;
+}
+
+impl fmt::Display for dyn Item {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "'{}' {} {}", self.get_barcode(), self.get_name(), self.get_cost())
+    }
 }
 
 pub struct NonPerishable {

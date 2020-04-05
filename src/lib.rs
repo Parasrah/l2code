@@ -1,6 +1,6 @@
 extern crate chrono;
 
-mod entity;
+pub mod entity;
 mod extensions;
 
 fn add_one (input: isize) -> isize {

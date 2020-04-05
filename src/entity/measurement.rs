@@ -34,6 +34,11 @@ impl Measurement {
         Ok(self.new(a + b))
     }
 
+    pub fn gte (&self, other: &Self) -> Result<bool, Error> {
+        let (a, b) = self.get_values(other)?;
+        return Ok(a > b);
+    }
+
     pub fn get_ratio (&self, other: &Self) -> Result<f32, Error> {
         let (a, b) = self.get_values(other)?;
         if a == 0 || b == 0 {
