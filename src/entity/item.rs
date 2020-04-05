@@ -18,7 +18,7 @@ pub trait Item {
 
 impl fmt::Display for dyn Item {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "'{}' {} {}", self.get_barcode(), self.get_name(), self.get_cost())
+        unimplemented!()
     }
 }
 
@@ -30,7 +30,7 @@ pub struct NonPerishable {
 
 impl NonPerishable {
     pub fn new (name: String, barcode: String, cost: Cost) -> Self {
-        NonPerishable { name, barcode, cost }
+        unimplemented!()
     }
 }
 
@@ -49,13 +49,13 @@ pub struct Perishable {
 
 impl Perishable {
     pub fn new (name: String, barcode: String, cost: Cost, expiry_date: DateTime<Utc>) -> Self {
-        Perishable { name, barcode, cost, expiry_date }
+        unimplemented!()
     }
 }
 
 impl Perishable {
     pub fn is_expired (&self, time: DateTime<Utc>) -> bool {
-        time < self.expiry_date
+        unimplemented!()
     }
 }
 

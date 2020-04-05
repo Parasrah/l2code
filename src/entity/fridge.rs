@@ -15,17 +15,24 @@ pub struct Fridge {
 }
 
 impl Fridge {
+    /// get the amount of a specific item you have in the fridge, identified
+    /// by its barcode
     pub fn get_amount (&self, barcode: &str) -> Result<Measurement, measurement::Error> {
-        self.contents.iter()
-            .filter(|(item, _)| item.get_barcode() == barcode)
-            .map(|(_, measurement)| measurement)
-            .fold(Ok(Measurement::Empty), |res, other| res?.add(other))
+        unimplemented!()
     }
 
     /// Get a shopping list of items to purchase in order
     /// to meet the desired contents of the fridge
     pub fn get_shopping_list (self) -> Result<ShoppingList, measurement::Error> {
+        // dislaimer: I'm not great with rust, this could probably be done much better
+        // given more time
+
         let mut owned_items: HashMap<String, Measurement> = HashMap::new();
+        // we might have multiples in the fridge (2 2L skim milk w/ same barcode)
+        // so we have to gather these together
+        // we will use a HashMap for this
+        // might find https://doc.rust-lang.org/std/collections/index.html interesting
+        // gives quick overview of the different collections in rust
         for (item, amount) in self.contents.iter() {
             let key = String::from(item.get_barcode());
             if let Some(old) = owned_items.remove(&key) {
@@ -35,6 +42,7 @@ impl Fridge {
             }
         }
 
+        // now we need to figure out what contents we need
         let mut required_contents: Vec<(Rc<dyn Item>, Measurement)> = Vec::new();
 
         for (key, (item, desired_amount)) in self.desired_contents.iter() {
@@ -51,8 +59,16 @@ impl Fridge {
         return Ok(ShoppingList::new(required_contents));
     }
 
-    pub fn add (&mut self, item: Rc<dyn Item>) {
-
+    pub fn add (&mut self, item: &Rc<dyn Item>) {
+        // hint: look at how Rc::clone is used above
+        // why is this?
+        // what are rusts ownership rules?
+        // if you're interested, read https://doc.rust-lang.org/book/ch15-04-rc.html
+        // what are the potential issues with reference counting? feel free to ask host
+        unimplemented!()
+        // btw I didn't have time to implement this one myself, so don't hesitate to ask
+        // questions or change the method signature if you need to.
+        // What would happen if you removed the & from item?
     }
 
     pub fn new (desired_contents: DesiredContents) -> Self {
@@ -69,15 +85,16 @@ mod tests {
 
     #[test]
     fn get_amount_succeeds () {
-
+        unimplemented!()
     }
 
     #[test]
     fn get_amount_fails () {
-
+        unimplemented!()
     }
 
-    fn seed_fridge () -> Fridge {
-        unimplemented!()
+    #[test]
+    fn add_adds_item_to_fridge () {
+
     }
 }

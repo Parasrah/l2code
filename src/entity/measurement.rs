@@ -30,21 +30,21 @@ impl Measurement {
     }
 
     pub fn add (&self, other: &Measurement) -> Result<Measurement, Error> {
-        let (a, b) = self.get_values(other)?;
-        Ok(self.new(a + b))
+        unimplemented!()
     }
 
+    /// returns true if self >= other
     pub fn gte (&self, other: &Self) -> Result<bool, Error> {
-        let (a, b) = self.get_values(other)?;
-        return Ok(a > b);
+        unimplemented!()
     }
 
+    /// returns the ratio of other / self
     pub fn get_ratio (&self, other: &Self) -> Result<f32, Error> {
         let (a, b) = self.get_values(other)?;
         if a == 0 || b == 0 {
             Err(Error::EmptyMeasurement)
         } else {
-            Ok((b as f32) / (a as f32))
+            unimplemented!()
         }
     }
 
@@ -71,8 +71,8 @@ impl Measurement {
         match self {
             Measurement::Empty => 0,
             Measurement::Count(count) => count.clone(),
-            Measurement::Weight(weight) => weight.clone(),
-            Measurement::Volume(volume) => volume.clone(),
+            Measurement::Weight(weight) => unimplemented!(),
+            Measurement::Volume(volume) => unimplemented!(),
         }
     }
 
@@ -80,25 +80,59 @@ impl Measurement {
         match self {
             Measurement::Empty => Measurement::Empty,
             Measurement::Count(_) => Measurement::Count(value),
-            Measurement::Weight(_) => Measurement::Weight(value),
-            Measurement::Volume(_) => Measurement::Volume(value),
+            Measurement::Weight(_) => unimplemented!(),
+            Measurement::Volume(_) => unimplemented!(),
         }
     }
 }
 
 impl fmt::Display for Measurement {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Measurement::Volume(ml) => match ml {
-                0..=1000 => write!(f, "{}mL", ml),
-                _ => write!(f, "{}L", (*ml as f32) / 1000.0)
-            },
-            Measurement::Weight(grams) => match grams {
-                0..=1000 => write!(f, "{}g", grams),
-                _ => write!(f, "{}kg", (*grams as f32) / 1000.0)
-            },
-            Measurement::Count(count) => write!(f, "{}", count),
-            Measurement::Empty => write!(f, "0")
+        unimplemented!()
+    }
+}
+
+#[cfg(tests)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn subtract_works () {
+        unimplemented!()
+    }
+
+    #[test]
+    fn subtract_returns_invalid_subtraction () {
+        unimplemented!()
+    }
+
+    #[test]
+    fn subtract_returns_mismatched_type () {
+        let res = Measurement::Volume(1).subtract(Measurement::Count(1));
+        if let Err(err) = res {
+            assert_eq!(err, Error::MismatchedType);
+        } else {
+            assert!(false, "should have returned error");
         }
+    }
+
+    #[test]
+    fn add_works () {
+        unimplemented!()
+    }
+
+    #[test]
+    fn add_returns_mismatched_types () {
+        unimplemented!()
+    }
+
+    #[test]
+    fn gte_works () {
+        unimplemented!()
+    }
+
+    #[test]
+    fn gte_returns_mismatched_types () {
+        unimplemented!()
     }
 }

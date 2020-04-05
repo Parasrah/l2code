@@ -25,7 +25,7 @@ pub struct Entry {
 
 impl fmt::Display for Entry {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{} - {}", self.item, self.amount)
+        unimplemented!()
     }
 }
 

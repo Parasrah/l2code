@@ -3,62 +3,63 @@ use super::measurement;
 use super::measurement::Measurement;
 
 pub struct Cost {
+    // why did I choose to work with cents only, instead of keeping the cents
+    // and dollars?
+    // consider this question before and after you're finished with this module
     total_cents: usize,
     per_unit: Measurement,
 }
 
 impl Cost {
     pub fn combine (&self, other: &Self) -> Result<Self, measurement::Error> {
-        match (&self.per_unit, &other.per_unit) {
-            (Measurement::Empty, _) => Err(measurement::Error::EmptyMeasurement),
-            (_, Measurement::Empty) => Err(measurement::Error::EmptyMeasurement),
-            (a, b) => {
-                let ratio = a.get_ratio(&b)?;
-                let adjusted = other.multiply(ratio);
-                return Ok(Self{
-                    total_cents: self.total_cents + adjusted.total_cents,
-                    per_unit: self.per_unit.clone(),
-                });
-            },
-        }
+        unimplemented!()
     }
 
     pub fn multiply (&self, factor: f32) -> Self {
-        let total_cents = ((self.total_cents as f32) * factor).round().abs() as usize;
-
-        Self {
-            total_cents,
-            per_unit: self.per_unit.clone(),
-        }
+        unimplemented!()
     }
 
     pub fn add (&self, dollars: usize, cents: usize) -> Self {
-        Self {
-            total_cents: self.total_cents + 100 * dollars + cents,
-            per_unit: self.per_unit.clone(),
-        }
+        unimplemented!()
     }
 
     pub fn dollars (&self) -> usize {
-        self.total_cents / 100
+        unimplemented!()
     }
 
     pub fn cents (&self) -> usize {
-        self.total_cents % 100
+        unimplemented!()
     }
 }
 
 impl Cost {
     pub fn new (dollars: usize, cents: usize, per_unit: Measurement) -> Self {
-        Cost {
-            total_cents: dollars * 100 + cents,
-            per_unit,
-        }
+        unimplemented!()
     }
 }
 
 impl fmt::Display for Cost {
+    // how do you want your cost to look? It's totally up to you
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "${}.{}/{}", self.dollars(), self.cents(), self.per_unit)
+        unimplemented!()
     }
+}
+
+// the idea of unit TDD (Test Driven Development) is that you write a skeleton like above
+// and then write tests for what your module should do. If you've written good tests,
+// you know when your module is done and working when all the tests are passing
+// start by writing the tests in this module
+#[cfg(tests)]
+mod tests {
+    use super::*;
+
+    // test new
+
+    // test dollars
+
+    // test cents
+
+    // test add
+
+    // test combine
 }
