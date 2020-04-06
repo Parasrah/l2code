@@ -4,15 +4,15 @@ pub mod entity;
 mod extensions;
 
 fn add_one (input: isize) -> isize {
-    input + 1
+    unimplemented!()
 }
 
 fn not (input: bool) -> bool {
-    !input
+    unimplemented!()
 }
 
 fn list_add_one (input: &Vec<isize>) -> Vec<isize> {
-    input.iter().map(|x| x + 1).collect()
+    unimplemented!()
 }
 
 #[cfg(test)]
